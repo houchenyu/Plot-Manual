@@ -1,0 +1,60 @@
+---
+title: "ScatterPlot"
+author: "hou"
+date: "2018/9/17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.基本绘图函数 Plot
+
+
+```{r}
+x<-c(1:100)
+y<-c(runif(100,1,10))
+plot(x, y)
+```
+
+### 1.1调参 
+
+plot函数中的可选参数：
+
+* pch: 控制生成的散点形状
+
+* cex: 控制散点大小
+```{r}
+x<-c(1:100)
+y<-c(runif(100,1,10))
+plot(x, y, pch = 2, cex = 3)
+```
+
+## 2.ggplot2
+
+除了上面使用基本画图函数外，还有一种高级的画图包,ggplot2。
+ggplot2的语法不同于基础画图方法。
+
+```{r}
+library(ggplot2)
+p <- ggplot(mtcars, aes(x=wt, y=mpg))
+p + geom_point()
+```
+
+代码解析： 首先利用ggplot设置数据和坐标轴的维度。 例如上面代码中 数据集是mtcats，它的数据类型是data.frame。 该数据集中包含两列属性，分别是wt(车重/1000 lbs)和mpg(每百公里油耗)。然后利用`aes(x=wt, y=mpg)`规定x轴为wt，y轴mpg。 此时不会显示具体的图像，因为还没有指定图像类型。 所以利用 `p+geom_point()`指定为散点图，并显示最终结果。
+
+### 2.1调参
+
+* 颜色、形状、大小
+```{r}
+p + geom_point(aes(colour = factor(cyl))) # 颜色
+p + geom_point(aes(shape = factor(cyl))) # 形状
+p + geom_point(aes(size = qsec)) #大小
+```
+
+* 指定固定的颜色和形状大小等。
+```{r}
+ggplot(mtcars, aes(wt, mpg)) + geom_point(colour = "red", size = 5, shape = 13)
+```
+
