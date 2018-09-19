@@ -1,0 +1,115 @@
+---
+title: "barplot"
+author: "hou"
+date: "2018/9/19"
+output: html_document
+---
+
+本文介绍如何画条形图，或者叫柱状图、堆砌图。
+
+## Plot
+
+在基础画图包中，使用barplot绘制条形图。
+
+首先，简单的画出如下的条形图。
+```{r}
+x<-c(1,2,3)
+y<-c(2,4,3)
+t<-cbind(x,y)
+barplot(t)
+```
+
+
+# 1.1 条形图分离
+参数：`beside = T`
+
+```{r}
+x<-c(1,2,3)
+y<-c(2,4,3)
+t<-cbind(x,y)
+barplot(t, beside = TRUE)
+```
+
+# 1.2 改变颜色
+
+```{r}
+x<-c(1,2,3)
+y<-c(2,4,3)
+t<-cbind(x,y)
+barplot(t, beside = TRUE, col=c('red', 'yellow', 'blue'))
+```
+
+# 1.3 调整条形宽度
+
+
+
+## ggplot2
+ggplot2包中画条形图的主要函数是`geom_bar`. 首先写一个最简单的代码，然后在此基础上进行修改。
+```{r pressure, echo=FALSE}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar()
+```
+
+代码解析： 上面代码实现的功能是统计每种类型车的数量，并且按照颜色进行了区分，每种类型的结果堆叠在一起。
+
+### 2.1 条形图分离
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar(position = 'dodge')
+```
+
+在`geom_bar`中添加参数`position = 'dodge'`，可以把原本堆叠在一起的条形图分离。 而`position = 'stack'`则是堆叠的条形图效果。
+
+### 2.2 百分比条形图
+
+把 `position参数`改为`position = 'fill'`，则可以画出两个不同年份各类别车数量的相互占比情况。如下图，纵坐标范围为 0\~1，代表百分比从0\~100%。根据百分比条形图可以很方便的看出两个年份之间的占比。
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar(position = 'fill')
+```
+
+### 2.3 改变颜色
+
+`scale_fill_manual(values = c("gray45","gray"))`
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar(position = 'dodge') + scale_fill_manual(values = c("red","blue"))
+```
+
+### 2.4 调整条形图粗细
+
+在`geom_bar`中添加参数`width`。
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar(position = 'dodge', width = 0.4) + scale_fill_manual(values = c("red","blue"))
+```
+
+
+### 2.5 添加数据显示
+
+`geom_text(mapping = aes(label = ))` 
+
+如果添加的条形是`stack`或者`dodge`，则需要在geom_text()中添加`position`参数。 如果是堆叠图， 则`position = position_stack()`； 如果是离散的条形图，则`position = position_dodge(width = )`
+
+```{r}
+library(ggplot2)
+x <- rep(1:5,each = 3)
+y <- rep(c("A","B","C"),times = 5)
+set.seed(12)
+z <- round(runif(min = 10,max = 20,n = 15))
+df <- data.frame(x = x,y = y,z = z)
+ggplot(data = df, mapping = aes(x = x, y = z, fill = y)) + geom_bar(width = 0.5,stat
+= 'identity', position = 'dodge') + geom_text(mapping = aes(label = z),
+size = 5, colour = 'black', vjust = 1, hjust = .5, position = position_dodge(width = 0.5))
+```
+
+
