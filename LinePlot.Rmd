@@ -1,0 +1,89 @@
+---
+title: "LinePlot"
+author: "hou"
+date: "2018/9/22"
+output: html_document
+---
+
+折线图的画法跟散点图差不多，这是在散点图的基础上增加线段。在plot函数中增加一个参数，而在ggplot中则是增加一个图层。
+
+## plot
+在`plot()`函数中增加`type = 'o'`即可画出折线图。
+`type`参数的取值和所画图形：
+   *  "p" for points,
+   * "l" for lines,
+   * "b" for both,
+   * "c" for the lines part alone of "b",
+   * "o" for both ‘overplotted’,
+   * "h" for ‘histogram’ like (or ‘high-density’) vertical lines,
+   * "s" for stair steps,
+   * "S" for other steps, see ‘Details’ below,
+   * "n" for no plotting.
+
+```{r cars}
+x<-c(2,4,5,7,9,23,33)
+
+y<-c(3,5,6,7,12,14,19)
+
+plot(x,y, type = 'o')
+plot(x,y, type = 'h')
+plot(x,y, type = 's')
+```
+
+### 1.1 调整线的类型、粗细、颜色
+
+`lty`: 类型
+`lwd`: 粗细
+`col`: 颜色
+```{r}
+x<-c(2,4,5,7,9,23,33)
+
+y<-c(3,5,6,7,12,14,19)
+
+plot(x,y, type = 'o', lty = 2, lwd =2, col = 'red')
+```
+### 增加线段
+
+在原图上增加一条线段，需要使用`lines()`函数
+
+```{r}
+#先用plot画出画布
+x<-c(2,4,5,7,9,23,33)
+y<-c(3,5,6,7,12,14,19)
+plot(x,y, type = 'o', lty = 2, lwd =2, col = 'red')
+# 再增加一条线段
+x<-c(2,4,5,7,9,23,33)
+y<-c(5,5,6,7,5,6,7)
+lines(x,y, type='o', pch = 3)
+```
+
+## ggplot2
+
+ggplot画折线图的图层函数是`geom_line()`
+
+```{r pressure, echo=FALSE}
+x<-c(1:10)
+x<-rep(x,2)
+y<-c(2:11, 11:2)
+df<-data.frame(x = x, y = y, type = rep(c('a', 'b'), each = 10))
+df
+```
+```{r}
+library(ggplot2)
+q <- ggplot(df, aes(x = x, y = y, color = type))
+q + geom_line(aes(linetype = type)) + geom_point()
+```
+
+### 2.1 改变颜色，粗细，类型
+颜色：`scale_color_manual(values = c('red','blue'))`
+类型：`scale_linetype_manual(values = c(2,1))`
+粗细： `geom_line(size = 1.3)`
+
+```{r}
+library(ggplot2)
+q + geom_line(aes(linetype = type),size= 1.5) + geom_point(size = 3) + scale_color_manual(values = c('red','blue')) + scale_linetype_manual(values = c(2,1))
+```
+
+
+
+

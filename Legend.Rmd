@@ -1,0 +1,177 @@
+---
+title: "Legend 图例"
+author: "hou"
+date: "2018/9/21"
+output: html_document
+---
+
+## Plot
+
+基本绘图函数通过`legend()`函数添加图例。
+
+函数中有一些必须的参数：
+
+* 位置
+
+    位置可以通过两种方式设置：
+    
+    1. 通过设置x，y坐标
+    
+    2. 通过keyword设置：
+      
+        top: 上
+        
+        topleft: 左上
+        
+        bottom: 下
+        
+        bottomright: 右下
+        
+        以及其他组合
+
+* 图例名字
+    
+    参数`legend`
+    
+* 各名称对应的图案：
+  
+    * fill：填充颜色
+    
+    * pch：散点形状
+    
+    * lty：线条类型
+    
+    参数`fill`, `pch`和`lty`是用来区分不同的图例， 其中`fill`主要用于条形图中， `pch`和`lty`则用于散点图和折线图。 
+    
+```{r cars}
+x<-c(1,2,3)
+y<-c(2,4,3)
+t<-cbind(x,y)
+barplot(t, col = c('gray1', 'gray40','gray90'))
+legend("topleft", legend = c('a','b','c'), fill = c('gray1', 'gray40','gray90'))
+```
+
+### 1.1 其他参数
+
+* 字体大小: `cex`
+
+* 图例与文字的水平间距: `x.intersp`
+
+  如果觉得图例和文字之间的空间太大，可以令 `x.intersp`为负数
+
+* 图例之间的垂直间距：`y.intersp`
+
+* 图例边框: `bty = 'o'`显示边框， `bty = 'n'`不显示边框
+
+* 设置图例水平放置: `horiz = T`
+
+* 设置图例的列数(仅适用于图例垂直放置): `ncol`
+
+```{r}
+x<-c(1,2,3)
+y<-c(2,4,3)
+t<-cbind(x,y)
+barplot(t, col = c('gray1', 'gray40','gray90'))
+legend("topleft", legend = c('a','b','c'), fill = c('gray1', 'gray40','gray90'), x.intersp = 1, y.intersp = 1.5, bty = 'n', cex = 1.5, ncol = 2)
+```
+
+
+
+## ggplot2 
+
+ggplot在画图时会自动生成图例，所以我们直接对图例进行修改。
+```{r ggplot-legend}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar()
+```
+
+
+### 2.1 隐藏图例：
+
+* 方法1：`guides(fill = FALSE)`隐藏由fill产生的图例（如上图），同理可以隐藏由color、shape产生的图例。
+* 方法2：增加图层的时候把参数 `show.legend` 设为 `FALSE`，隐藏某图层的图例。
+* 方法3：用 `theme(legend.position = 'none')` 来隐藏全局图例。
+
+```{r pressure, echo=FALSE}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+# p + geom_bar() + guides(fill = FALSE) #方法1
+# p + geom_bar(show.legend  = FALSE) #方法2
+p + geom_bar() + theme(legend.position = 'none') # 方法3
+```
+
+### 2.2 隐藏图例标题
+
+* 方法1: `guides(fill=guide_legend(title=NULL)`，把fill产生的图例的标题去掉，同理可以去掉color,shape的图例标题
+* 方法2： `theme(legend.title=element_blank())`
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+# p + geom_bar() + guides(fill = guide_legend(title = NULL)) #方法1
+p + geom_bar() + theme(legend.title = element_blank())
+
+```
+
+### 2.3 调整图例顺序
+用 `scale_color_discrete`，通过 `breaks` 参数设置图例的顺序（注意也可以把fill改成`fill`或者`shape`).
+
+注意设置`breaks`时，图例的名称必须和原图例的名称相同，否则会出现图例名称不显示的情况。
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar() + theme(legend.title = element_blank()) + scale_fill_discrete(breaks = c('2008', '1999'))
+```
+
+### 2.4 修改图例标签文字
+
+用 `scale_color_discrete`，通过 `breaks` 和`labels`
+参数共同设置图例的新标签。
+
+注意设置`breaks`时，图例的名称必须和原图例的名称相同，否则会出现图例名称不显示的情况。
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar() + theme(legend.title = element_blank()) + scale_fill_discrete(breaks = c('1999', '2008'), labels = c('year-1999','year-2008'))
+```
+
+### 2.5 调整图例大小、颜色
+
+`theme(legend.text = element_text(size,color))`
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar() + theme(legend.title = element_blank()) + scale_fill_discrete(breaks = c('1999', '2008'), labels = c('year-1999','year-2008')) + theme(legend.text = element_text(size = 20, color ="azure4"))
+```
+
+### 2.6 修改图例位置
+
+`theme(legend.position = 'top')`,把图例放置在图片上方。同理还有 bottom, left, right。
+
+另外，形如`legend.position = c(0.2,0.8)`的方式可以把图例放入到图片内。
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar() + theme(legend.title = element_blank()) + scale_fill_discrete(breaks = c('1999', '2008'), labels = c('year-1999','year-2008')) + theme(legend.position = 'top')
+```
+
+### 2.7 其他
+
+* `legend.direction = 'horizontal' or 'vertical'`: 设置图例是水平还是垂直放置
+
+* 调整图例key的大小： `theme(legend.key.size = unit(1, 'cm'))`
+
+* 调整图例之间的间隙： `them(legend.spacing.x, legend.x.spacing.y)`
+
+```{r}
+library(ggplot2)
+p <- ggplot(mpg, aes(x=class, fill=factor(year)))
+p + geom_bar() + theme(legend.title = element_blank()) + scale_fill_discrete(breaks = c('1999', '2008'), labels = c('year-1999','year-2008')) + theme(legend.position = 'top', legend.spacing.x = unit(0.5,'cm'),legend.key.size = unit(1, 'cm'), legend.direction = 'horizontal')
+```
+
+
+
