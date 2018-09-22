@@ -1,5 +1,9 @@
 # Plot Manual
 
+* Author: Chenyu Hou
+* School: ZJUT
+* Email: houcy@zjut.edu.cn
+
 ## Motivation
 
 在科技论文写作时，经常需要画各种各样的实验图。同时为了排版美观，还需要对实验图做各种细微的调整。
@@ -52,7 +56,7 @@ R语言中有两个画图体系， 一个是基于plot的基础画图，另一�
 
 
 
-PS：有些功能的实现方法不仅仅只有我提供的一种，如果有更好的建议请联系： houcy@zjut.edu.com
+PS：有些功能的实现方法不仅仅只有我提供的一种，如果有更好的建议请联系： houcy@zjut.edu.cn
 
 
 
