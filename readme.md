@@ -1,4 +1,4 @@
-# 画图手册
+# Plot Mannual
 
 ## Motivation
 
@@ -24,11 +24,11 @@
 ## Required
 
 * R
-  * IDE: Rstudio
-  * package：ggplot2
-  * knowledge: R grammar
+  * * IDE: Rstudio
+  * * package：ggplot2
+  * * knowledge: R grammar
 * Python
-  * balabalabala
+  * * balabalabala
 
 ## Instruction
 
@@ -40,4 +40,19 @@ R语言中有两个画图体系， 一个是基于plot的基础画图，另一�
 
 
 
-PS：有些功能的实现方法不仅仅我提供的一种，如果有更好的建议请联系： houcy@zjut.edu.cn
+本库中的文件主要分为两种类型：1、可编辑的R Markdown文件，可以直接对文件进行修改。 2、对应的html文件，可以直观地查看代码最终效果。 ​	
+
+| 功能       | 对应代码    |
+| ---------- | ----------- |
+| 散点图     | ScatterPlot |
+| 折线图     | LinePlot    |
+| 条形图     | BarPlot     |
+| 调整坐标轴 | Axis        |
+| 调整图例   | Legend      |
+
+
+
+PS：有些功能的实现方法不仅仅只有我提供的一种，如果有更好的建议请联系： houcy@zjut.edu.com
+
+
+
