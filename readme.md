@@ -24,11 +24,11 @@
 ## Required
 
 * R
-  * * IDE: Rstudio
-  * * package：ggplot2
-  * * knowledge: R grammar
+  * IDE: Rstudio
+  * package：ggplot2
+  * knowledge: R grammar
 * Python
-  * * balabalabala
+  * balabalabala
 
 ## Instruction
 
