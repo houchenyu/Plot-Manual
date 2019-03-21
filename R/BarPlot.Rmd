@@ -129,4 +129,19 @@ ggplot(data = df, mapping = aes(x = x, y = z, fill = y)) + geom_bar(width = 0.5,
 size = 5, colour = 'black', vjust = 1, hjust = .5, position = position_dodge(width = 0.5))
 ```
 
+### 2.6 修改不同组别的名称
+
+如上图中的 1 2 3 4 5改为ABCDE
+
+```{r}
+library(ggplot2)
+x <- rep(1:5,each = 3)
+y <- rep(c("A","B","C"),times = 5)
+set.seed(12)
+z <- round(runif(min = 10,max = 20,n = 15))
+df <- data.frame(x = x,y = y,z = z)
+ggplot(data = df, mapping = aes(x = x, y = z, fill = y)) + geom_bar(width = 0.5,stat
+= 'identity', position = 'dodge') + geom_text(mapping = aes(label = z),
+size = 5, colour = 'black', vjust = 1, hjust = .5, position = position_dodge(width = 0.5)) + scale_x_discrete(limits=c(1,2,3,4,5), labels=c('A','B','C','D','E'))
+```
 
